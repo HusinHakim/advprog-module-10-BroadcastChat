@@ -45,4 +45,42 @@ Berikut adalah tangkapan layar (screenshot) saat menjalankan satu server dan tig
 
 **Kesimpulan:**
 - Program ini mendemonstrasikan komunikasi broadcast sederhana menggunakan WebSocket di Rust dengan bantuan library `tokio-websockets` dan `tokio`.
-- Semua client dapat saling bertukar pesan secara real-time melalui server. 
+- Semua client dapat saling bertukar pesan secara real-time melalui server.
+
+# Experiment 2.2: Modifying port
+
+## Penjelasan Perubahan Port dan Protokol
+
+- **Port yang digunakan sekarang adalah 8000** (bukan 2000). Perubahan ini harus dilakukan di dua tempat:
+  - Pada server: di `TcpListener::bind("127.0.0.1:8000")` di file `src/bin/server.rs`.
+  - Pada client: di `ClientBuilder::from_uri(Uri::from_static("ws://127.0.0.1:8000"))` di file `src/bin/client.rs`.
+- **Protokol yang digunakan adalah WebSocket** dengan skema `ws://`. Ini didefinisikan pada client saat membuat koneksi ke server menggunakan `ClientBuilder::from_uri(...)`.
+- Pastikan port pada server dan client sama agar koneksi berhasil.
+
+## Dokumentasi Hasil Eksekusi Setelah Modifikasi
+
+Berikut adalah tangkapan layar (screenshot) setelah port diubah ke 8000:
+
+### Client 1
+![Client 1](images/Cursor_GAOHyzOkDB.png)
+
+### Client 2
+![Client 2](images/Cursor_KSvLKaoQuz.png)
+
+### Client 3
+![Client 3](images/Cursor_pPRx1gQ2jz.png)
+
+### Server
+![Server](images/Cursor_nea3njkrhV.png)
+
+## Penjelasan Hasil Uji Coba
+
+- Server berhasil menerima koneksi dari tiga client pada port 8000.
+- Setiap client dapat mengirim pesan, dan pesan tersebut akan diterima oleh semua client lain secara real-time.
+- Semua komunikasi tetap menggunakan protokol WebSocket (`ws://`).
+- Tangkapan layar menunjukkan pesan yang dikirim dari satu client akan muncul di semua client lain dan juga di server.
+
+**Kesimpulan:**
+- Perubahan port tidak mempengaruhi fungsionalitas selama port yang sama digunakan di kedua sisi (server dan client).
+- Protokol WebSocket tetap digunakan dan didefinisikan secara eksplisit di kode client.
+- Program tetap berjalan dengan baik setelah perubahan port. 
