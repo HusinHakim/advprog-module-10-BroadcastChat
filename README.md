@@ -83,4 +83,38 @@ Berikut adalah tangkapan layar (screenshot) setelah port diubah ke 8000:
 **Kesimpulan:**
 - Perubahan port tidak mempengaruhi fungsionalitas selama port yang sama digunakan di kedua sisi (server dan client).
 - Protokol WebSocket tetap digunakan dan didefinisikan secara eksplisit di kode client.
-- Program tetap berjalan dengan baik setelah perubahan port. 
+- Program tetap berjalan dengan baik setelah perubahan port.
+
+# Experiment 2.3: Small changes, add IP and Port
+
+## Penjelasan Perubahan
+
+Pada eksperimen ini, setiap pesan yang dikirimkan ke client lain kini juga menyertakan informasi IP dan port pengirim. Karena belum ada fitur username, maka identitas pengirim diwakili oleh alamat IP dan port-nya. Hal ini memudahkan untuk mengetahui siapa yang mengirim pesan, terutama jika ada banyak client yang terhubung secara bersamaan.
+
+Perubahan ini dilakukan di sisi server, yaitu dengan menambahkan informasi `addr` (alamat IP dan port) ke dalam pesan yang di-broadcast ke semua client. Client akan menerima pesan dalam format:
+
+```
+From server: <IP:PORT> - <pesan>
+```
+
+## Dokumentasi Hasil Eksekusi
+
+Berikut adalah tangkapan layar hasil modifikasi:
+
+### Server
+![Server](images/Cursor_2025-05-22_01.27.14.png)
+
+### Client 1
+![Client 1](images/Cursor_2025-05-22_01.27.27.png)
+
+### Client 2
+![Client 2](images/Cursor_2025-05-22_01.27.31.png)
+
+### Client 3
+![Client 3](images/Cursor_2025-05-22_01.27.37.png)
+
+## Alasan Perubahan
+
+- Dengan menampilkan IP dan port pengirim, setiap client dapat mengetahui asal pesan yang diterima.
+- Ini adalah solusi sederhana sebelum menambahkan fitur username atau identitas lain.
+- Perubahan ini juga membantu debugging dan memastikan broadcast berjalan ke semua client yang aktif. 
